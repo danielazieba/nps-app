@@ -2,11 +2,14 @@ from flask import render_template, request
 from npsflaskapp import app
 
 import subprocess
+import json
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    with open('data/states.json') as json_file:
+        data = json.load(json_file)
+    return render_template('index.html', states=data)
 
 @app.route('/alerts')
 def alerts():
