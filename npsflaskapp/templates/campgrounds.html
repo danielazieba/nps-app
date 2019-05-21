@@ -14,7 +14,9 @@
         Welcome to our parks!
       </h1>
       <p class="subtitle">
-        {{ campground_list }}
+        {% for campground in campground_list %}
+              <p>{{ campground }}</p>
+        {% endfor %}
       </p>
     </div>
   </section>

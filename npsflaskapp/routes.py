@@ -20,4 +20,9 @@ def alerts():
 def campgrounds():
     selection = request.args.getlist('requestedStates')
     subprocess_output = subprocess.check_output(['curl -X GET "https://developer.nps.gov/api/v1/campgrounds?stateCode=KY%2CAL%2CFL&api_key=FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT" -H "accept: application/json"'], shell=True)
-    return render_template('campgrounds.html', campground_list = subprocess_output)
+    campground_str = subprocess_output.decode('utf-8')
+    campground_json = json.loads(campground_str)
+    campground_names = []
+    for campground in campground_json['data']:
+        campground_names.append(campground['name'])
+    return render_template('campgrounds.html', campground_list = campground_names)
