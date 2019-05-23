@@ -35,8 +35,14 @@
 
     </div>
 
-    <form action="{{ url_for('parks') }}">
-        <button type="submit" id="park-button" class="button is-black">Show me your parks!</button>
+
+    <div>
+      <form action="{{ url_for('parks') }}">
+
+          <p class="subtitle">Search parks by keyword:</p>
+          <input type="text" name="keyword"><br>
+
+          <button type="submit" id="park-button" class="button is-black">Show me your parks!</button>
     </form>
 
   </section>

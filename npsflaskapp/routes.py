@@ -32,7 +32,8 @@ def campgrounds():
 
 @app.route('/parks', methods=['GET','POST'])
 def parks():
-    return create_park_call(['parkCode=bepa', 'stateCode=DC', '', '', '', '', ''])
+    keyword = request.args.get('keyword')
+    return create_park_call(['', '', '', '', '', 'q=' + keyword, ''])
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
