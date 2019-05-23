@@ -17,7 +17,7 @@
         What are you looking for today?
       </p>
 
-      <p class="subtitle">View campgrounds by state: </p>
+  <!--    <p class="subtitle">View campgrounds by state: </p>
       <form action="{{ url_for('campgrounds') }}">
         <div class="select is-multiple">
           <select multiple size="8" name="requestedStates">
@@ -36,15 +36,30 @@
     </div>
 
 
-    <div>
+    <div> -->
       <form action="{{ url_for('parks') }}">
 
           <p class="subtitle">Search parks by keyword:</p>
-          <input type="text" name="keyword"><br>
+          <input class="input is-primary" type="text" name="keyword" placeholder="keyword"><br>
+
+     <!--     <p class="subtitle">Filter by park code:</p>
+          <input type="text" name="parkCode"><br> -->
+
+          <p class="subtitle">Select parks by state:</p>
+          <div class="select is-multiple">
+          <select multiple size="8" name="requestedParkStates">
+            {% for state in states %}
+              <option value="{{ state.abbreviation }}">{{ state.name }}</option>
+            {% endfor %}
+          </select>
+
+          <p> {{ campgrounds_by_state }} </p>
+          </div>
 
           <button type="submit" id="park-button" class="button is-black">Show me your parks!</button>
-    </form>
+      </form>
 
+      </div>
   </section>
 
   </body>

@@ -33,7 +33,26 @@ def campgrounds():
 @app.route('/parks', methods=['GET','POST'])
 def parks():
     keyword = request.args.get('keyword')
-    return create_park_call(['', '', '', '', '', 'q=' + keyword, ''])
+    state_selection = request.args.getlist('requestedParkStates')
+    state_selection_concat = ''
+    if len(keyword) > 0:
+        keyword = 'q=' + keyword
+    if len(state_selection) > 1:
+        state_selection_concat += state_reformat(state_selection)
+    elif len(state_selection) == 1:
+        state_selection_concat += state_selection[0]
+
+    if len(state_selection) > 0:
+        state_selection_concat = 'stateCode=' + state_selection_concat
+
+#return state_selection_concat
+    park_result = create_park_call(['', state_selection_concat, '', '', '', keyword, ''])
+    park_str = park_result.decode('utf-8')
+    park_json = json.loads(park_str)
+    park_names = []
+    for park in park_json['data']:
+        park_names.append(park['fullName'])
+    return render_template('parks.html', park_list = park_names)
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -54,4 +73,12 @@ def create_park_call(parameters):
 
     return subprocess.check_output([park_call], shell=True)
 #return subprocess.check_output([park_call,'api_key=',api_key,'"',park_call_end], shell=True)
+
+def state_reformat(state_arr):
+    state_list = ''
+    for i in range(len(state_arr)):
+        state_list += state_arr[i]
+        if state_arr[i] != state_arr[-1]:
+            state_list += '%2C'
+    return state_list
 
