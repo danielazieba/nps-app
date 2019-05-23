@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NPS Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        {{ park_name }}
+      </h1>
+    </div>
+  </section>
+
+  <section class="section has-background-dark">
+      <div class="container has-background-dark">
+        <img src="/static/images/maps-white-22.svg"/><p class="subtitle has-text-white"> {{ park_state }} </p>
+        <p class="subtitle has-text-white"> {{ park_location }} </p> 
+
+        <p class="subtitle has-text-white"> Designation: {{ park_designation }} </p> 
+
+      </div>
+
+      
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="subtitle"> {{ park_desc }} </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="subtitle">Do you want more information? View:</p>
+      <button type="submit" id="park-alert" class="button is-black">Alerts, news, and events</button>
+      <form action="{{ url_for('selectedcamp') }}">
+        <button type="submit" id="park-amenities" class="button is-black" name="campgroundWanted" value="{{ selected_code }}">Campgrounds, visitor centers and amenities</button>
+      </form>
+      <button type="submit" id="park-education" class="button is-black">Educational facts and people</button>
+    </div>
+  </section>
+
+  </body>
+</html>

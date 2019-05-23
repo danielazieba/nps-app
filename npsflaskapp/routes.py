@@ -63,7 +63,23 @@ def parks():
 def selectedpark():
     desired_park_code = request.args.get('selectedCode')
     curr_selected_park = get_park_by_code(desired_park_code)
-    return curr_selected_park
+    selected_str = curr_selected_park.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    selected_park = selected_json['data'][0]
+    return render_template('selected.html', park_name = selected_park['fullName'],
+                           park_state = selected_park['states'],
+                           park_desc = selected_park['description'],
+                           park_location = selected_park['latLong'],
+                           park_designation = selected_park['designation'],
+                           selected_code = desired_park_code)
+
+@app.route('/selectedcamp', methods=['GET','POST'])
+def selectedcamp():
+    desired_park_code = request.args.get('campgroundWanted')
+    curr_camps = create_campsite_call('parkCode=' + desired_park_code)
+    selected_str = curr_camps.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    return render_template('selected_amenities.html', campground_list=selected_json['data'])
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -84,6 +100,15 @@ def create_park_call(parameters):
 
     return subprocess.check_output([park_call], shell=True)
 #return subprocess.check_output([park_call,'api_key=',api_key,'"',park_call_end], shell=True)
+
+def create_campsite_call(parameters):
+    camp_call = 'curl -X GET "https://developer.nps.gov/api/v1/campgrounds?'
+    camp_call_end = ' -H "accept: application/json"'
+    camp_call += parameters + '&'
+    camp_call += 'api_key=' + api_key + '"'
+    camp_call += camp_call_end
+    
+    return subprocess.check_output([camp_call], shell=True)
 
 def state_reformat(state_arr):
     state_list = ''
