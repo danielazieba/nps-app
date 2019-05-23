@@ -5,6 +5,8 @@ import subprocess
 import json
 
 api_key = 'FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT'
+curr_search_results = {}
+curr_selected_park = ''
 
 @app.route('/')
 @app.route('/index')
@@ -50,9 +52,18 @@ def parks():
     park_str = park_result.decode('utf-8')
     park_json = json.loads(park_str)
     park_names = []
+    park_codes = []
     for park in park_json['data']:
         park_names.append(park['fullName'])
-    return render_template('parks.html', park_list = park_names)
+        park_codes.append(park['parkCode'])
+    curr_search_results = park_json
+    return render_template('parks.html', park_list = park_names, park_code_list = park_codes)
+
+@app.route('/selectedpark', methods=['GET','POST'])
+def selectedpark():
+    desired_park_code = request.args.get('selectedCode')
+    curr_selected_park = get_park_by_code(desired_park_code)
+    return curr_selected_park
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -81,4 +92,7 @@ def state_reformat(state_arr):
         if state_arr[i] != state_arr[-1]:
             state_list += '%2C'
     return state_list
+
+def get_park_by_code(park_code):
+    return create_park_call(['parkCode=' + park_code, '', '', '', '', '', ''])
 

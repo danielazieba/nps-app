@@ -14,10 +14,16 @@
         Welcome to our parks!
       </h1>
       <p class="subtitle">
-        {% for park in park_list %}
-              <p>{{ park }}</p>
+        {% for i in range(park_list | length) %}
+          <form action="{{ url_for('selectedpark') }}">
+              <p>{{ park_list[i] }}</p>
+              <img src="/static/images/viewing-area-black-22.svg" />
+              <input type="hidden" name="selectedCode" value="{{ park_code_list[i] }}">
+              <button type="submit" id="park-select-button" class="button is-black">More info</button>
+          </form>
         {% endfor %}
       </p>
+
     </div>
   </section>
 
