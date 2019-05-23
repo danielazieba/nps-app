@@ -29,11 +29,16 @@
           <p> {{ campgrounds_by_state }} </p>
           </div>
 
-          <button type="submit" id="campground-button">Give me the campgrounds!</button>
+          <button type="submit" id="campground-button" class="button is-black">Give me the campgrounds!</button>
       </form>
 
 
     </div>
+
+    <form action="{{ url_for('parks') }}">
+        <button type="submit" id="park-button" class="button is-black">Show me your parks!</button>
+    </form>
+
   </section>
 
   </body>

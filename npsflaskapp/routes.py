@@ -4,6 +4,8 @@ from npsflaskapp import app
 import subprocess
 import json
 
+api_key = 'FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT'
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -26,3 +28,29 @@ def campgrounds():
     for campground in campground_json['data']:
         campground_names.append(campground['name'])
     return render_template('campgrounds.html', campground_list = campground_names)
+
+
+@app.route('/parks', methods=['GET','POST'])
+def parks():
+    return create_park_call(['parkCode=bepa', 'stateCode=DC', '', '', '', '', ''])
+
+# parameters is an array of the following structure:
+# [parkCode, stateCode, limit, start, q, fields, sort]
+def create_park_call(parameters):
+    park_call = 'curl -X GET "https://developer.nps.gov/api/v1/parks?'
+    park_call_end = ' -H "accept: application/json"'
+    park_parameters = ['']
+    parameters_to_be_added = ''
+    for para in parameters:
+        if len(para) > 0:
+            parameters_to_be_added += para
+            if para != parameters[len(parameters) - 1]:
+                parameters_to_be_added += '&'
+
+    park_call += parameters_to_be_added
+    park_call += 'api_key=' + api_key + '"'
+    park_call += park_call_end
+
+    return subprocess.check_output([park_call], shell=True)
+#return subprocess.check_output([park_call,'api_key=',api_key,'"',park_call_end], shell=True)
+
