@@ -104,6 +104,36 @@ def parkmap():
     return render_template('parkmap.html', park_map = 'https://www.nps.gov/carto/hfc/carto/media/'
                            + park_code + 'map1.jpg')
 
+@app.route('/visitorcenters', methods=['GET','POST'])
+def visitorcenters():
+    park_code = request.args.get('vcWanted')
+    curr_park_name = get_park_by_code(park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    vc_park = json.loads(selected_park)
+    
+    park_centers = create_vc_call('parkCode=' + park_code)
+    selected_str = park_centers.decode('utf-8')
+    vc_json = json.loads(selected_str)
+    vc_locations = []
+    vc_desc = []
+    vc_names = []
+    vc_nps_links = []
+    vc_dirs = []
+    for vc in vc_json['data']:
+        vc_names.append(vc['name'])
+        vc_locations.append(vc['latLong'])
+        vc_desc.append(vc['description'])
+        vc_dirs.append(vc['directionsInfo'])
+        vc_nps_links.append(vc['url'])
+    return render_template('visitorcenters.html',
+                           vc_list=vc_names,
+                           location=vc_locations,
+                           desc=vc_desc,
+                           dir=vc_dirs,
+                           urls=vc_nps_links,
+                           park_name=vc_park['data'][0]['fullName'])
+
+
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
 def create_park_call(parameters):
@@ -126,6 +156,15 @@ def create_park_call(parameters):
 
 def create_campsite_call(parameters):
     camp_call = 'curl -X GET "https://developer.nps.gov/api/v1/campgrounds?'
+    camp_call_end = ' -H "accept: application/json"'
+    camp_call += parameters + '&'
+    camp_call += 'api_key=' + api_key + '"'
+    camp_call += camp_call_end
+    
+    return subprocess.check_output([camp_call], shell=True)
+
+def create_vc_call(parameters):
+    camp_call = 'curl -X GET "https://developer.nps.gov/api/v1/visitorcenters?'
     camp_call_end = ' -H "accept: application/json"'
     camp_call += parameters + '&'
     camp_call += 'api_key=' + api_key + '"'
