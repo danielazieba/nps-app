@@ -79,7 +79,30 @@ def selectedcamp():
     curr_camps = create_campsite_call('parkCode=' + desired_park_code)
     selected_str = curr_camps.decode('utf-8')
     selected_json = json.loads(selected_str)
-    return render_template('selected_amenities.html', campground_list=selected_json['data'])
+    camp_names = []
+    camp_weather = 'Weather data unavailable.'
+    if len(selected_json['data']) > 0:
+        camp_weather = selected_json['data'][0]['weatheroverview']
+    internet_info = []
+    accessibility_info = []
+    for campsite in selected_json['data']:
+        camp_names.append(campsite['name'])
+        if len(campsite['accessibility']['internetinfo']) > 0:
+            internet_info.append(campsite['accessibility']['internetinfo'])
+        else:
+            internet_info.append('Not available')
+        accessibility_info.append(campsite['accessibility']['wheelchairaccess'])
+    return render_template('selected_amenities.html',
+                           campground_list=camp_names,
+                           weather=camp_weather,
+                           internet=internet_info,
+                           ada_info=accessibility_info)
+
+@app.route('/parkmap', methods=['GET','POST'])
+def parkmap():
+    park_code = request.args.get('parkMap')
+    return render_template('parkmap.html', park_map = 'https://www.nps.gov/carto/hfc/carto/media/'
+                           + park_code + 'map1.jpg')
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]

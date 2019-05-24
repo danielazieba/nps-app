@@ -12,9 +12,20 @@
   <section class="section">
     <div class="container">
       <p class="title">Campgrounds:</p>
+        <p class="subtitle">Weather - {{ weather }} </p>
+
         {% for i in range(campground_list | length) %}
-              <p>{{ campground_list[i] }}</p>
-              <img src="/static/images/campground-black-22.svg" />
+              <p class="subtitle is-inline">{{ campground_list[i] }}</p>
+              <img src="/static/images/campground-black-22.svg" class="is-inline"/>
+              <div class="container"> 
+                <img src="/static/images/wi-fi-black-22.svg" class="is-inline"/>
+                <p class="is-inline"> {{ internet[i] }}</p>
+              </div>
+
+              <div class="container"> 
+                <img src="/static/images/wheelchair-accessible-black-22.svg" class="is-inline"/>
+                <p class="is-inline"> {{ ada_info[i] }}</p>
+              </div>
         {% endfor %}
     </div>
   </section>

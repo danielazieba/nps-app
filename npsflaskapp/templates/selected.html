@@ -42,6 +42,9 @@
         <button type="submit" id="park-amenities" class="button is-black" name="campgroundWanted" value="{{ selected_code }}">Campgrounds, visitor centers and amenities</button>
       </form>
       <button type="submit" id="park-education" class="button is-black">Educational facts and people</button>
+      <form action="{{ url_for('parkmap') }}">
+        <button type="submit" id="park-map" class="button is-black" name="parkMap" value="{{ selected_code }}">Park map</button>
+      </form>
     </div>
   </section>
 
