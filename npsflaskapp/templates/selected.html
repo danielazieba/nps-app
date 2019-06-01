@@ -37,14 +37,17 @@
   <section class="section">
     <div class="container">
       <p class="subtitle">Do you want more information? View:</p>
-      <button type="submit" id="park-alert" class="button is-black">Alerts, news, and events</button>
+      <form action="{{ url_for('newsstand') }}">
+        <button type="submit" value="{{ selected_code }}" name="parkAlert" class="button is-black">Alerts, news, and events</button>
+      </form>
       <form action="{{ url_for('selectedcamp') }}">
         <button type="submit" id="park-amenities" class="button is-black" name="campgroundWanted" value="{{ selected_code }}">Campgrounds and amenities</button>
       </form>
       <form action="{{ url_for('visitorcenters') }}">
         <button type="submit" id="park-vc" class="button is-black" name="vcWanted" value="{{ selected_code }}">Visitor Centers information</button>
       </form>
-      <button type="submit" id="park-education" class="button is-black">Educational facts and people</button>
+      <form action="{{ url_for('education') }}">
+        <button type="submit" id='edu-want' name="educationWant" class="button is-black" value="{{ selected_code }}">Educational facts and people</button>
       <form action="{{ url_for('parkmap') }}">
         <button type="submit" id="park-map" class="button is-black" name="parkMap" value="{{ selected_code }}">Park map</button>
       </form>

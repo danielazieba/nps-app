@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NPS Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <p class="title">{{ park_name }} Educational Facts</p>
+      <p class="subtitle">Learn more about the people, places and history around the park.</p>
+    </div>
+
+    <div class="container">
+      <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li id="lessons">
+            <form action="{{ url_for('lessons') }}">
+              <button type="submit" value="{{ park_code }}" name="parkLessons" class="button is-black">Lessons</button>
+            </form>
+          </li>
+          <li id="articles" onclick="getElementById('alert').style.color = '#00d1b2'">
+            <a href="#">
+              <span class="icon is-small">
+                <img src="/static/images/newspaper-black-22.svg"/>
+              </span>
+              <span class="has-text-dark">Related Articles</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="icon is-small">
+                <img src="/static/images/things-to-do-black-22.svg"/>
+              </span>
+              <span class="has-text-dark">Events</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="container">
+        <p class="subtitle">{{ park_code }}</p>
+      </div>
+  </section>
+  </body>
+</html>

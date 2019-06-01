@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from npsflaskapp import app
 
 import subprocess
@@ -15,10 +15,10 @@ def index():
         data = json.load(json_file)
     return render_template('index.html', states=data)
 
-@app.route('/alerts')
-def alerts():
-    subprocess_output = subprocess.check_output(['curl -X GET "https://developer.nps.gov/api/v1/alerts?stateCode=KY&api_key=FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT" -H "accept: application/json"'], shell=True)
-    return subprocess_output
+#@app.route('/alerts')
+#def alerts():
+#    subprocess_output = subprocess.check_output(['curl -X GET "https:/#/developer.nps.gov/api/v1/alerts?stateCode=KY&api_key=FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT" -H "accept: application/json"'], shell=True)
+#    return subprocess_output
 
 @app.route('/campgrounds', methods=['GET','POST'])
 def campgrounds():
@@ -133,6 +133,79 @@ def visitorcenters():
                            urls=vc_nps_links,
                            park_name=vc_park['data'][0]['fullName'])
 
+@app.route('/newsstand', methods=['GET','POST'])
+def newsstand():
+    feed = ''
+    feed_type = ''
+        # if request.method == 'POST':
+        #    feed_type = request.get_data().decode('utf-8')
+    
+    #   get feed type
+    #   make NPS API call using type and park code
+    #   set feed equal to parse data
+    desired_park_code = request.args.get('parkAlert')
+    curr_selected_park = get_park_by_code(desired_park_code)
+    selected_str = curr_selected_park.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    selected_park = selected_json['data'][0]
+    return render_template('newsstand.html', park_name=selected_park['fullName'], park_code=desired_park_code, display_type=feed_type)
+
+@app.route('/alerts', methods=['GET','POST'])
+def alerts():
+    json_data = request.get_data().decode('utf-8')
+    park_code = json_data[5:9]
+    alerts = create_alert_call(park_code)
+    selected_str = alerts.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    return json.dumps({ 'parkcode' : park_code,
+                        'alertdata' : selected_json['data']})
+
+@app.route('/articles', methods=['GET','POST'])
+def articles():
+    park_code = request.get_data().decode('utf-8')
+    articles = create_article_call(park_code)
+    selected_str = articles.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    return str(selected_json)
+
+@app.route('/education', methods=['GET','POST'])
+def education():
+    desired_park_code = request.args.get('educationWant')
+    curr_selected_park = get_park_by_code(desired_park_code)
+    selected_str = curr_selected_park.decode('utf-8')
+    selected_json = json.loads(selected_str)
+    selected_park = selected_json['data'][0]
+    return render_template('education.html', park_name = selected_park['fullName'], park_code=desired_park_code)
+
+@app.route('/lessons', methods=['GET','POST'])
+def lessons():
+    desired_park_code = request.args.get('parkLessons')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_lesson_data = create_lesson_call('parkCode=' + desired_park_code)
+    selected_str = park_lesson_data.decode('utf-8')
+    lesson_json = json.loads(selected_str)
+    lesson_desc = []
+    lesson_names = []
+    lesson_topics = []
+    lesson_grades = []
+    lesson_urls = []
+    for lesson in lesson_json['data']:
+        lesson_names.append(lesson['title'])
+        lesson_desc.append(lesson['questionobjective'])
+        lesson_topics.append(lesson['subject'])
+        lesson_grades.append(lesson['gradelevel'])
+        lesson_urls.append(lesson['url'])
+    return render_template('lessons.html',
+                           lesson_list=lesson_names,
+                           desc=lesson_desc,
+                           park_name=park_json['data'][0]['fullName'],
+                           subjects=lesson_topics,
+                           grade=lesson_grades,
+                           urls=lesson_urls,
+                           park_code=desired_park_code)
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -171,6 +244,33 @@ def create_vc_call(parameters):
     camp_call += camp_call_end
     
     return subprocess.check_output([camp_call], shell=True)
+
+def create_alert_call(parameters):
+    alert_call = 'curl -X GET "https://developer.nps.gov/api/v1/alerts?'
+    alert_call_end = ' -H "accept: application/json"'
+    alert_call += parameters + '&'
+    alert_call += 'api_key=' + api_key + '"'
+    alert_call += alert_call_end
+    
+    return subprocess.check_output([alert_call], shell=True)
+
+def create_article_call(parameters):
+    alert_call = 'curl -X GET "https://developer.nps.gov/api/v1/articles?'
+    alert_call_end = ' -H "accept: application/json"'
+    alert_call += parameters + '&'
+    alert_call += 'api_key=' + api_key + '"'
+    alert_call += alert_call_end
+    
+    return subprocess.check_output([alert_call], shell=True)
+
+def create_lesson_call(parameters):
+    alert_call = 'curl -X GET "https://developer.nps.gov/api/v1/lessonplans?'
+    alert_call_end = ' -H "accept: application/json"'
+    alert_call += parameters + '&'
+    alert_call += 'api_key=' + api_key + '"'
+    alert_call += alert_call_end
+    
+    return subprocess.check_output([alert_call], shell=True)
 
 def state_reformat(state_arr):
     state_list = ''
