@@ -207,6 +207,37 @@ def lessons():
                            urls=lesson_urls,
                            park_code=desired_park_code)
 
+@app.route('/people', methods=['GET','POST'])
+def people():
+    desired_park_code = request.args.get('parkPeople')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_people_data = create_people_call('parkCode=' + desired_park_code)
+    selected_str = park_people_data.decode('utf-8')
+    people_json = json.loads(selected_str)
+    people_desc = []
+    people_names = []
+    people_imgs = []
+    people_urls = []
+    for person in people_json['data']:
+        people_names.append(person['title'])
+        people_desc.append(person['listingdescription'])
+        people_imgs.append(person['listingimage']['url'])
+        people_urls.append(person['url'])
+    return render_template('people.html',
+                           people_list=people_names,
+                           desc=people_desc,
+                           park_name=park_json['data'][0]['fullName'],
+                           image_urls=people_imgs,
+                           urls=people_urls,
+                           park_code=desired_park_code)
+
+@app.route('/places', methods=['GET','POST'])
+def places():
+    return "Hello world"
+
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
 def create_park_call(parameters):
@@ -265,6 +296,15 @@ def create_article_call(parameters):
 
 def create_lesson_call(parameters):
     alert_call = 'curl -X GET "https://developer.nps.gov/api/v1/lessonplans?'
+    alert_call_end = ' -H "accept: application/json"'
+    alert_call += parameters + '&'
+    alert_call += 'api_key=' + api_key + '"'
+    alert_call += alert_call_end
+    
+    return subprocess.check_output([alert_call], shell=True)
+
+def create_people_call(parameters):
+    alert_call = 'curl -X GET "https://developer.nps.gov/api/v1/people?'
     alert_call_end = ' -H "accept: application/json"'
     alert_call += parameters + '&'
     alert_call += 'api_key=' + api_key + '"'

@@ -11,8 +11,8 @@
   <body>
   <section class="section">
     <div class="container">
-      <p class="title">{{ park_name }} Educational Facts</p>
-      <p class="subtitle">Learn more about the people, places and history around the park.</p>
+      <p class="title">{{ park_name }} People</p>
+      <p class="subtitle">Learn about some famous figures associated with this park.</p>
     </div>
 
     <div class="container">
@@ -36,6 +36,25 @@
           </li>
         </ul>
       </nav>
+    </div>
+
+    <div class="container">
+        {% for i in range(people_list | length) %}
+              <p class="subtitle is-inline">{{ people_list[i] }}</p>
+              <div class="container"> 
+                <img src="{{ image_urls[i] }}" class="is-inline"/>
+              </div>
+
+              <div class="container"> 
+                <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
+                <p class="is-inline">{{ desc[i] }}</p>
+              </div>
+
+              <div class="container"> 
+                <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
+                <p class="is-inline">{{ urls[i] }}</p>
+              </div>
+        {% endfor %}
     </div>
   </section>
   </body>
