@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NPS Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <p class="title">{{ park_name }} Places</p>
+      <p class="subtitle">Learn about some historical places associated with this park.</p>
+    </div>
+
+    <div class="container">
+      <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li id="lessons">
+            <form action="{{ url_for('lessons') }}">
+              <button type="submit" value="{{ park_code }}" name="parkLessons" class="button is-black">Lessons</button>
+            </form>
+          </li>
+          <li id="people">
+            <form action="{{ url_for('people') }}">
+              <button type="submit" value="{{ park_code }}" name="parkPeople" class="button is-black">People</button>
+            </form>
+          </li>
+          <li id="places">
+            <form action="{{ url_for('places') }}">
+              <button type="submit" value="{{ park_code }}" name="parkPlaces" class="button is-black">Places</button>
+            </form>
+          </li>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="container">
+        {% for i in range(places_list | length) %}
+              <p class="subtitle is-inline">{{ places_list[i] }}</p>
+              <div class="container"> 
+                <img src="{{ image_urls[i] }}" class="is-inline"/>
+              </div>
+
+        {% endfor %}
+    </div>
+  </section>
+  </body>
+</html>

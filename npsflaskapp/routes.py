@@ -236,7 +236,29 @@ def people():
 
 @app.route('/places', methods=['GET','POST'])
 def places():
-    return "Hello world"
+    desired_park_code = request.args.get('parkPlaces')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_places_data = create_places_call('parkCode=' + desired_park_code)
+    selected_str = park_places_data.decode('utf-8')
+    places_json = json.loads(selected_str)
+    places_desc = []
+    places_names = []
+    places_imgs = []
+    places_urls = []
+    for place in places_json['data']:
+        places_names.append(place['title'])
+    #        places_desc.append(place['listingdescription'])
+        places_imgs.append(place['listingimage']['url'])
+#    places_urls.append(place['url'])
+    return render_template('places.html',
+                          places_list=places_names,
+                          park_name=park_json['data'][0]['fullName'],
+                          image_urls=places_imgs,
+                          park_code=desired_park_code)
+#return park_places_data
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -311,6 +333,15 @@ def create_people_call(parameters):
     alert_call += alert_call_end
     
     return subprocess.check_output([alert_call], shell=True)
+
+def create_places_call(parameters):
+    place_call = 'curl -X GET "https://developer.nps.gov/api/v1/places?'
+    place_call_end = ' -H "accept: application/json"'
+    place_call += parameters + '&'
+    place_call += 'api_key=' + api_key + '"'
+    place_call += place_call_end
+    
+    return subprocess.check_output([place_call], shell=True)
 
 def state_reformat(state_arr):
     state_list = ''
