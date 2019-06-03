@@ -11,16 +11,16 @@
   <body>
   <section class="section">
     <div class="container">
-      <p class="title">{{ park_name }} Places</p>
-      <p class="subtitle">Learn about some historical places associated with this park.</p>
+      <p class="title">{{ park_name }} Alerts</p>
+      <p class="subtitle">See the most recent alerts for this park.</p>
     </div>
 
     <div class="container">
       <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li id="lessons">
-            <form action="{{ url_for('lessons') }}">
-              <button type="submit" value="{{ park_code }}" name="parkLessons" class="button is-black">Lessons</button>
+            <form action="{{ url_for('alerts') }}">
+              <button type="submit" value="{{ park_code }}" name="parkAlerts" class="button is-black">Alerts</button>
             </form>
           </li>
           <li id="people">
@@ -39,15 +39,16 @@
     </div>
 
     <div class="container">
-        {% for i in range(places_list | length) %}
-              <p class="subtitle is-inline">{{ places_list[i] }}</p>
+        {% for i in range(alert_list | length) %}
+              <p class="subtitle is-inline">{{ alert_list[i] }}</p>
               <div class="container"> 
-                <img src="{{ image_urls[i] }}" class="is-inline"/>
+                <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
+                <p class="is-inline">{{ desc[i] }}</p>
               </div>
 
               <div class="container"> 
                 <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
-                <p class="is-inline">{{ desc[i] }}</p>
+                <p class="is-inline">{{ category[i] }}</p>
               </div>
 
               <div class="container"> 

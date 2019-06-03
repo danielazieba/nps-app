@@ -9,79 +9,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-  <section class="section">
-    <div class="container">
-      <p class="title">{{ park_name }} News Stand</p>
-      <p class="subtitle">Check for alerts, news, and upcoming events before your visit.</p>
-    </div>
-
-    <div class="container">
-      <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li id="alerts" onclick="getElementById('alert').style.color = '#00d1b2'">
-            <a href="#">
-              <span class="icon is-small">
-                <img src="/static/images/safety-caution-alerts-black-22.svg"/>
-              </span>
-              <span class="has-text-dark" id="alert">Alerts</span>
-            </a>
-          </li>
-          <li id="articles" onclick="getElementById('alert').style.color = '#00d1b2'">
-            <a href="#">
-              <span class="icon is-small">
-                <img src="/static/images/newspaper-black-22.svg"/>
-              </span>
-              <span class="has-text-dark">Related Articles</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span class="icon is-small">
-                <img src="/static/images/things-to-do-black-22.svg"/>
-              </span>
-              <span class="has-text-dark">Events</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
-    <div class="container">
-        <p class="subtitle">{{ display_type }}</p>
-        <p class="subtitle" id="results"></p>
+    <section class="section">
+      <div class="container">
+        <p class="title">{{ park_name }} News Stand</p>
+        <p class="subtitle">Check for alerts, news, and upcoming events before your visit.</p>
       </div>
-  </section>
 
-  <script>
-        $('#alerts').click(function() {
-            $.ajax({
-                  type: "POST",
-                  url: "{{ url_for('alerts')}}",
-                  dataType: 'json',
-                  data: { 'code': "{{ park_code }}"},
-                  success: function(response){
-                  $('#results').html(response.alertdata);
-                  console.log(response.alertdata);
-                  }
-          });
-        });
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li id="alerts">
+              <form action="{{ url_for('alerts') }}">
+              <button type="submit" value="{{ park_code }}" name="parkAlerts" class="button is-black">Alerts</button>
+            </form>
+            </li>
+            <li id="articles" onclick="getElementById('alert').style.color = '#00d1b2'">
+              <a href="#">
+                <span class="icon is-small">
+                  <img src="/static/images/newspaper-black-22.svg"/>
+                </span>
+                <span class="has-text-dark">Related Articles</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="icon is-small">
+                  <img src="/static/images/things-to-do-black-22.svg"/>
+                </span>
+                <span class="has-text-dark">Events</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-        $('#articles').click(function() {
-            var testInfo = { "ya" : "yeet"};
-
-            $.ajax({
-                  type: "POST",
-                  url: "{{ url_for('articles')}}",
-                  dataType:'text',
-                  data: "{{ park_code }}",
-                  success: function(response){
-                  $('#results').html(response);
-                  console.log(response);
-
-                  }
-          });
-        });
-      </script>
-
+      <div class="container">
+          <p class="subtitle" id="results"></p>
+        </div>
+    </section>
   </body>
 </html>

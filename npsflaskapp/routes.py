@@ -152,13 +152,30 @@ def newsstand():
 
 @app.route('/alerts', methods=['GET','POST'])
 def alerts():
-    json_data = request.get_data().decode('utf-8')
-    park_code = json_data[5:9]
-    alerts = create_alert_call(park_code)
-    selected_str = alerts.decode('utf-8')
-    selected_json = json.loads(selected_str)
-    return json.dumps({ 'parkcode' : park_code,
-                        'alertdata' : selected_json['data']})
+    desired_park_code = request.args.get('parkAlerts')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_alert_data = create_alert_call('parkCode=' + desired_park_code)
+    selected_str = park_alert_data.decode('utf-8')
+    alert_json = json.loads(selected_str)
+    alert_desc = []
+    alert_names = []
+    alert_categories = []
+    alert_urls = []
+    for alert in alert_json['data']:
+        alert_names.append(alert['title'])
+        alert_desc.append(alert['description'])
+        alert_categories.append(alert['category'])
+        alert_urls.append(alert['url'])
+    return render_template('alerts.html',
+                           alert_list=alert_names,
+                           desc=alert_desc,
+                           park_name=park_json['data'][0]['fullName'],
+                           category=alert_categories,
+                           urls=alert_urls,
+                           park_code=desired_park_code)
 
 @app.route('/articles', methods=['GET','POST'])
 def articles():
@@ -250,12 +267,14 @@ def places():
     places_urls = []
     for place in places_json['data']:
         places_names.append(place['title'])
-    #        places_desc.append(place['listingdescription'])
+        places_desc.append(place['listingdescription'])
         places_imgs.append(place['listingimage']['url'])
-#    places_urls.append(place['url'])
+        places_urls.append(place['url'])
     return render_template('places.html',
                           places_list=places_names,
                           park_name=park_json['data'][0]['fullName'],
+                          desc=places_desc,
+                          urls=places_urls,
                           image_urls=places_imgs,
                           park_code=desired_park_code)
 #return park_places_data
