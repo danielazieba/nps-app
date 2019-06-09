@@ -251,6 +251,37 @@ def people():
                            urls=people_urls,
                            park_code=desired_park_code)
 
+@app.route('/news', methods=['GET','POST'])
+def news():
+    desired_park_code = request.args.get('parkNews')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_news_data = create_call('parkCode=' + desired_park_code, 'newsreleases')
+    
+    
+    selected_str = park_news_data.decode('utf-8')
+    news_json = json.loads(selected_str)
+    news_desc = []
+    news_names = []
+    news_urls = []
+    news_dates = []
+    for news in news_json['data']:
+        news_names.append(news['title'])
+        news_desc.append(news['abstract'])
+        news_urls.append(news['url'])
+        news_dates.append(news['releasedate'])
+    return render_template('news.html',
+                           news_list=news_names,
+                           park_name=park_json['data'][0]['fullName'],
+                           desc=news_desc,
+                           urls=news_urls,
+                           date=news_dates,
+                           #                         image_urls=news_imgs,
+                           park_code=desired_park_code)
+
+
 @app.route('/places', methods=['GET','POST'])
 def places():
     desired_park_code = request.args.get('parkPlaces')
@@ -361,6 +392,16 @@ def create_places_call(parameters):
     place_call += place_call_end
     
     return subprocess.check_output([place_call], shell=True)
+
+def create_call(park_name, type):
+    place_call = 'curl -X GET "https://developer.nps.gov/api/v1/' + type + '?'
+    place_call_end = ' -H "accept: application/json"'
+    place_call += park_name + '&'
+    place_call += 'api_key=' + api_key + '"'
+    place_call += place_call_end
+    
+    return subprocess.check_output([place_call], shell=True)
+#   return place_call
 
 def state_reformat(state_arr):
     state_list = ''

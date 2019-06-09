@@ -39,6 +39,11 @@
                 <span class="has-text-dark">Events</span>
               </a>
             </li>
+            <li id="news">
+              <form action="{{ url_for('news') }}">
+              <button type="submit" value="{{ park_code }}" name="parkNews" class="button is-black">News Releases</button>
+            </form>
+            </li>
           </ul>
         </nav>
       </div>
