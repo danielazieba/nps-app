@@ -179,11 +179,27 @@ def alerts():
 
 @app.route('/articles', methods=['GET','POST'])
 def articles():
-    park_code = request.get_data().decode('utf-8')
-    articles = create_article_call(park_code)
-    selected_str = articles.decode('utf-8')
-    selected_json = json.loads(selected_str)
-    return str(selected_json)
+    desired_park_code = request.args.get('parkArticles')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+    
+    park_article_data = create_call('parkCode=' + desired_park_code, 'articles')
+    selected_str = park_article_data.decode('utf-8')
+    article_json = json.loads(selected_str)
+    article_desc = []
+    article_names = []
+    article_urls = []
+    for article in article_json['data']:
+        article_names.append(article['title'])
+        article_desc.append(article['listingdescription'])
+        article_urls.append(article['url'])
+    return render_template('articles.html',
+                           article_list=article_names,
+                           desc=article_desc,
+                           park_name=park_json['data'][0]['fullName'],
+                           urls=article_urls,
+                           park_code=desired_park_code)
 
 @app.route('/education', methods=['GET','POST'])
 def education():
