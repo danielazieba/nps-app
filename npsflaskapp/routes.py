@@ -177,6 +177,22 @@ def alerts():
                            urls=alert_urls,
                            park_code=desired_park_code)
 
+@app.route('/events', methods=['GET','POST'])
+def events():
+    desired_park_code = request.args.get('parkEvents')
+    curr_park_name = get_park_by_code(desired_park_code)
+    selected_park = curr_park_name.decode('utf-8')
+    park_json = json.loads(selected_park)
+
+    park_event_data = create_call('parkCode=' + desired_park_code, 'events')
+    selected_str = park_event_data.decode('utf-8')
+    event_json = json.loads(selected_str)
+    event_titles = []
+    for event in event_json['data']:
+        event_titles.append(event['title'])
+
+    return render_template('events.html', events_list=event_titles)
+
 @app.route('/articles', methods=['GET','POST'])
 def articles():
     desired_park_code = request.args.get('parkArticles')

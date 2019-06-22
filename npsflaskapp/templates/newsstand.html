@@ -29,12 +29,9 @@
             </form>
             </li>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <img src="/static/images/things-to-do-black-22.svg"/>
-                </span>
-                <span class="has-text-dark">Events</span>
-              </a>
+              <form action="{{ url_for('events') }}">
+              <button type="submit" value="{{ park_code }}" name="parkEvents" class="button is-black">Events</button>
+            </form>
             </li>
             <li id="news">
               <form action="{{ url_for('news') }}">
