@@ -15,11 +15,6 @@ def index():
         data = json.load(json_file)
     return render_template('index.html', states=data)
 
-#@app.route('/alerts')
-#def alerts():
-#    subprocess_output = subprocess.check_output(['curl -X GET "https:/#/developer.nps.gov/api/v1/alerts?stateCode=KY&api_key=FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT" -H "accept: application/json"'], shell=True)
-#    return subprocess_output
-
 @app.route('/campgrounds', methods=['GET','POST'])
 def campgrounds():
     selection = request.args.getlist('requestedStates')
@@ -47,7 +42,6 @@ def parks():
     if len(state_selection) > 0:
         state_selection_concat = 'stateCode=' + state_selection_concat
 
-#return state_selection_concat
     park_result = create_park_call(['', state_selection_concat, '', '', '', keyword, ''])
     park_str = park_result.decode('utf-8')
     park_json = json.loads(park_str)
@@ -102,12 +96,6 @@ def selectedcamp():
                            internet=internet_info,
                            ada_info=accessibility_info)
 
-@app.route('/parkmap', methods=['GET','POST'])
-def parkmap():
-    park_code = request.args.get('parkMap')
-    return render_template('parkmap.html', park_map = 'https://www.nps.gov/carto/hfc/carto/media/'
-                           + park_code + 'map1.jpg')
-
 @app.route('/visitorcenters', methods=['GET','POST'])
 def visitorcenters():
     park_code = request.args.get('vcWanted')
@@ -141,12 +129,6 @@ def visitorcenters():
 def newsstand():
     feed = ''
     feed_type = ''
-        # if request.method == 'POST':
-        #    feed_type = request.get_data().decode('utf-8')
-    
-    #   get feed type
-    #   make NPS API call using type and park code
-    #   set feed equal to parse data
     desired_park_code = request.args.get('parkAlert')
     curr_selected_park = get_park_by_code(desired_park_code)
     selected_str = curr_selected_park.decode('utf-8')
@@ -180,22 +162,6 @@ def alerts():
                            category=alert_categories,
                            urls=alert_urls,
                            park_code=desired_park_code)
-
-@app.route('/events', methods=['GET','POST'])
-def events():
-    desired_park_code = request.args.get('parkEvents')
-    curr_park_name = get_park_by_code(desired_park_code)
-    selected_park = curr_park_name.decode('utf-8')
-    park_json = json.loads(selected_park)
-
-    park_event_data = create_call('parkCode=' + desired_park_code, 'events')
-    selected_str = park_event_data.decode('utf-8')
-    event_json = json.loads(selected_str)
-    event_titles = []
-    for event in event_json['data']:
-        event_titles.append(event['title'])
-
-    return render_template('events.html', events_list=event_titles, park_code=desired_park_code)
 
 @app.route('/articles', methods=['GET','POST'])
 def articles():
@@ -314,7 +280,6 @@ def news():
                            desc=news_desc,
                            urls=news_urls,
                            date=news_dates,
-                           #                         image_urls=news_imgs,
                            park_code=desired_park_code)
 
 
@@ -344,7 +309,6 @@ def places():
                           urls=places_urls,
                           image_urls=places_imgs,
                           park_code=desired_park_code)
-#return park_places_data
 
 # parameters is an array of the following structure:
 # [parkCode, stateCode, limit, start, q, fields, sort]
@@ -364,7 +328,6 @@ def create_park_call(parameters):
     park_call += park_call_end
 
     return subprocess.check_output([park_call], shell=True)
-#return subprocess.check_output([park_call,'api_key=',api_key,'"',park_call_end], shell=True)
 
 def create_campsite_call(parameters):
     camp_call = 'curl -X GET "https://developer.nps.gov/api/v1/campgrounds?'
@@ -437,7 +400,6 @@ def create_call(park_name, type):
     place_call += place_call_end
     
     return subprocess.check_output([place_call], shell=True)
-#   return place_call
 
 def state_reformat(state_arr):
     state_list = ''
