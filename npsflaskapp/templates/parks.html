@@ -5,26 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Welcome to our parks!
+        Your request returned the following results.
       </h1>
       <p class="subtitle">
         {% for i in range(park_list | length) %}
-          <form action="{{ url_for('selectedpark') }}">
-              <p>{{ park_list[i] }}</p>
-              <img src="/static/images/viewing-area-black-22.svg" />
+          <form action="{{ url_for('selectedpark') }}" class="search-result">
+              <p class='park-name small-park'>{{ park_list[i] }}</p>
+           <!--   <img src="/static/images/viewing-area-black-22.svg" /> -->
               <input type="hidden" name="selectedCode" value="{{ park_code_list[i] }}">
+              <div>
+                <p class="subtitle is-inline"> Location: </p>
+                <p class="subtitle is-inline">{{ states[i] }}</p>
+              </div>
+              <div>
+                <p class="subtitle is-inline"> Designation: </p>
+                <p class="subtitle is-inline">{{ designation[i] }}</p>
+              </div>
               <button type="submit" id="park-select-button" class="button is-black">More info</button>
+              <p class="list-element"></p>
           </form>
         {% endfor %}
       </p>
 
     </div>
+  </section>
+
+  <section class="has-background-black has-text-white">
+    <footer class="footer has-background-black">
+      <div class="content has-text-centered">
+        <p>
+          Website by <a href="https://www.github.com/danielazieba">Daniela Zieba</a>. Powered by Bulma, Flask, NPS API. Special thanks to <a href="https://nationalparktypeface.com/">https://nationalparktypeface.com/</a>.
+        </p>
+        <p>
+          Note that this is not an official National Park Service website.
+        </p>
+      </div>
+    </footer>
   </section>
 
   </body>

@@ -53,11 +53,15 @@ def parks():
     park_json = json.loads(park_str)
     park_names = []
     park_codes = []
+    park_designation = []
+    park_states = []
     for park in park_json['data']:
         park_names.append(park['fullName'])
         park_codes.append(park['parkCode'])
+        park_designation.append(park['designation'])
+        park_states.append(park['states'])
     curr_search_results = park_json
-    return render_template('parks.html', park_list = park_names, park_code_list = park_codes)
+    return render_template('parks.html', park_list = park_names, park_code_list = park_codes, states = park_states, designation = park_designation)
 
 @app.route('/selectedpark', methods=['GET','POST'])
 def selectedpark():

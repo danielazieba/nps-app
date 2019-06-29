@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Welcome to our parks!
+        Welcome to the National Park Service!
       </h1>
       <p class="subtitle">
         What are you looking for today?
@@ -40,11 +41,11 @@
       <form action="{{ url_for('parks') }}">
 
           <p class="subtitle">Search parks by keyword:</p>
-          <input class="input is-primary" type="text" name="keyword" placeholder="keyword"><br>
+          <input class="input" type="text" name="keyword" placeholder="keyword"><br>
 
      <!--     <p class="subtitle">Filter by park code:</p>
           <input type="text" name="parkCode"><br> -->
-
+          <br>
           <p class="subtitle">Select parks by state:</p>
           <div class="select is-multiple">
           <select multiple size="8" name="requestedParkStates">
@@ -60,6 +61,19 @@
       </form>
 
       </div>
+  </section>
+
+  <section class="has-background-black has-text-white">
+    <footer class="footer has-background-black">
+      <div class="content has-text-centered">
+        <p>
+          Website by <a href="https://www.github.com/danielazieba">Daniela Zieba</a>. Powered by Bulma, Flask, NPS API. Special thanks to <a href="https://nationalparktypeface.com/">https://nationalparktypeface.com/</a>.
+        </p>
+        <p>
+          Note that this is not an official National Park Service website.
+        </p>
+      </div>
+    </footer>
   </section>
 
   </body>

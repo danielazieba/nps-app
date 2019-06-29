@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-  <section class="section">
+  <section class="section sign">
     <div class="container">
-      <h1 class="title">
+      <h1 class="park-name large-park">
         {{ park_name }}
       </h1>
     </div>
@@ -18,7 +19,9 @@
 
   <section class="section has-background-dark">
       <div class="container has-background-dark">
-        <img src="/static/images/maps-white-22.svg"/><p class="subtitle has-text-white"> {{ park_state }} </p>
+          <img src="/static/images/maps-white-22.svg"/>
+          <p class="subtitle has-text-white is-inline"> Located in:</p>
+          <p class="subtitle has-text-white is-inline"> {{ park_state }} </p>
         <p class="subtitle has-text-white"> {{ park_location }} </p> 
 
         <p class="subtitle has-text-white"> Designation: {{ park_designation }} </p> 
@@ -48,10 +51,21 @@
       </form>
       <form action="{{ url_for('education') }}">
         <button type="submit" id='edu-want' name="educationWant" class="button is-black" value="{{ selected_code }}">Educational facts and people</button>
-      <form action="{{ url_for('parkmap') }}">
-        <button type="submit" id="park-map" class="button is-black" name="parkMap" value="{{ selected_code }}">Park map</button>
       </form>
     </div>
+  </section>
+
+  <section class="has-background-black has-text-white">
+    <footer class="footer has-background-black">
+      <div class="content has-text-centered">
+        <p>
+          Website by <a href="https://www.github.com/danielazieba">Daniela Zieba</a>. Powered by Bulma, Flask, NPS API. Special thanks to <a href="https://nationalparktypeface.com/">https://nationalparktypeface.com/</a>.
+        </p>
+        <p>
+          Note that this is not an official National Park Service website.
+        </p>
+      </div>
+    </footer>
   </section>
 
   </body>

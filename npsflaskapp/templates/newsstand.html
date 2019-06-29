@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-    <section class="section">
+    <section class="section sign">
       <div class="container">
-        <p class="title">{{ park_name }} News Stand</p>
-        <p class="subtitle">Check for alerts, news, and upcoming events before your visit.</p>
+        <p class="park-name large-park">{{ park_name }} News Stand</p>
+        <p class="subtitle has-text-light">Check for alerts, news, and upcoming events before your visit.</p>
       </div>
 
       <div class="container">
@@ -46,5 +47,18 @@
           <p class="subtitle" id="results"></p>
         </div>
     </section>
+
+    <section class="has-background-black has-text-white">
+    <footer class="footer has-background-black">
+      <div class="content has-text-centered">
+        <p>
+          Website by <a href="https://www.github.com/danielazieba">Daniela Zieba</a>. Powered by Bulma, Flask, NPS API. Special thanks to <a href="https://nationalparktypeface.com/">https://nationalparktypeface.com/</a>.
+        </p>
+        <p>
+          Note that this is not an official National Park Service website.
+        </p>
+      </div>
+    </footer>
+  </section>
   </body>
 </html>

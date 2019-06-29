@@ -16,32 +16,31 @@
     </div>
 
     <div class="container">
-      <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li id="lessons">
-            <form action="{{ url_for('alerts') }}">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li id="alerts">
+              <form action="{{ url_for('alerts') }}">
               <button type="submit" value="{{ park_code }}" name="parkAlerts" class="button is-black">Alerts</button>
             </form>
-          </li>
-          <li id="people">
-            <form action="{{ url_for('people') }}">
-              <button type="submit" value="{{ park_code }}" name="parkPeople" class="button is-black">People</button>
+            </li>
+            <li id="articles">
+              <form action="{{ url_for('articles') }}">
+              <button type="submit" value="{{ park_code }}" name="parkArticles" class="button is-black">Related Articles</button>
             </form>
-          </li>
-          <li id="places">
-            <form action="{{ url_for('places') }}">
-              <button type="submit" value="{{ park_code }}" name="parkPlaces" class="button is-black">Places</button>
+            </li>
+            <li>
+              <form action="{{ url_for('events') }}">
+              <button type="submit" value="{{ park_code }}" name="parkEvents" class="button is-black">Events</button>
             </form>
-          </li>
-          <li id="news">
+            </li>
+            <li id="news">
               <form action="{{ url_for('news') }}">
               <button type="submit" value="{{ park_code }}" name="parkNews" class="button is-black">News Releases</button>
             </form>
             </li>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          </ul>
+        </nav>
+      </div>
 
     <div class="container">
         {% for i in range(article_list | length) %}
@@ -57,6 +56,19 @@
                 </div>
         {% endfor %}
     </div>
+  </section>
+
+  <section class="has-background-black has-text-white">
+    <footer class="footer has-background-black">
+      <div class="content has-text-centered">
+        <p>
+          Website by <a href="https://www.github.com/danielazieba">Daniela Zieba</a>. Powered by Bulma, Flask, NPS API. Special thanks to <a href="https://nationalparktypeface.com/">https://nationalparktypeface.com/</a>.
+        </p>
+        <p>
+          Note that this is not an official National Park Service website.
+        </p>
+      </div>
+    </footer>
   </section>
   </body>
 </html>

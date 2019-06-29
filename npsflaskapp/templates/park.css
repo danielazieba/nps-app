@@ -1,0 +1,16 @@
+@font-face {
+  font-family: parkSign;
+  src: url('../fonts/NationalPark-Heavy.otf');
+}
+
+.park-name {
+  font-family: parkSign;
+}
+
+.small-park {
+	font-size: 2rem;
+}
+
+.large-park {
+	font-size: 4rem;
+}
