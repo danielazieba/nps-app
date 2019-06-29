@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-  <section class="section">
+  <section class="section sign">
     <div class="container">
-      <p class="title">{{ park_name }} Related Articles</p>
-      <p class="subtitle">View related articles relevant to this park experience.</p>
+      <p class="park-name large-park">{{ park_name }} Related Articles</p>
+      <p class="subtitle has-text-white">View related articles relevant to this park experience.</p>
     </div>
 
     <div class="container">
@@ -28,11 +29,6 @@
               <button type="submit" value="{{ park_code }}" name="parkArticles" class="button is-black">Related Articles</button>
             </form>
             </li>
-            <li>
-              <form action="{{ url_for('events') }}">
-              <button type="submit" value="{{ park_code }}" name="parkEvents" class="button is-black">Events</button>
-            </form>
-            </li>
             <li id="news">
               <form action="{{ url_for('news') }}">
               <button type="submit" value="{{ park_code }}" name="parkNews" class="button is-black">News Releases</button>
@@ -41,19 +37,21 @@
           </ul>
         </nav>
       </div>
-
+    </section>
+    <section class="section">
     <div class="container">
         {% for i in range(article_list | length) %}
-                <p class="subtitle is-inline">{{ article_list[i] }}</p>
+                <p class="park-name small-park is-inline">{{ article_list[i] }}</p>
                 <div class="container"> 
-                  <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
+                  <img src="/static/images/coffee-black-22.svg" class="is-inline"/>
                   <p class="is-inline">{{ desc[i] }}</p>
                 </div>
 
                 <div class="container"> 
-                  <img src="/static/images/young-scientist-program-black-22.svg" class="is-inline"/>
+                  <img src="/static/images/wi-fi-black-22.svg" class="is-inline"/>
                   <p class="is-inline">{{ urls[i] }}</p>
                 </div>
+                <p class="list-element"></p>
         {% endfor %}
     </div>
   </section>

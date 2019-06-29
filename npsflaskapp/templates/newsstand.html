@@ -13,7 +13,7 @@
     <section class="section sign">
       <div class="container">
         <p class="park-name large-park">{{ park_name }} News Stand</p>
-        <p class="subtitle has-text-light">Check for alerts, news, and upcoming events before your visit.</p>
+        <p class="subtitle has-text-light">Check for alerts, related articles and news before your visit.</p>
       </div>
 
       <div class="container">
@@ -27,11 +27,6 @@
             <li id="articles">
               <form action="{{ url_for('articles') }}">
               <button type="submit" value="{{ park_code }}" name="parkArticles" class="button is-black">Related Articles</button>
-            </form>
-            </li>
-            <li>
-              <form action="{{ url_for('events') }}">
-              <button type="submit" value="{{ park_code }}" name="parkEvents" class="button is-black">Events</button>
             </form>
             </li>
             <li id="news">

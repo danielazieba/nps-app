@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-  <section class="section">
+  <section class="section sign">
     <div class="container">
-      <p class="title">{{ park_name }} Educational Facts</p>
-      <p class="subtitle">Learn more about the people, places and history around the park.</p>
+      <p class="park-name large-park">{{ park_name }} Educational Facts</p>
+      <p class="subtitle has-text-white">Learn more about the people, places and history around the park.</p>
     </div>
 
     <div class="container">

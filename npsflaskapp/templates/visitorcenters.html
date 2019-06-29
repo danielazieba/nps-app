@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Information</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/park.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
 
-  <section class="section">
+  <section class="section sign">
     <div class="container">
-      <p class="title">Visitor Centers</p>
-        <p class="subtitle">At {{ park_name }} </p>
-
+      <p class="park-name large-park">{{ park_name }}</p>
+      <p class="subtitle has-text-light">Visitor Centers </p>
+    </div>
+  </section>
+    <br>
+    <div class="container">
         {% for i in range(vc_list | length) %}
-              <p class="subtitle is-inline">{{ vc_list[i] }}</p>
               <img src="/static/images/visitor-center-black-22.svg" class="is-inline"/>
+              <p class='park-name small-park'>{{ vc_list[i] }}</p>
               <div class="container"> 
                 <img src="/static/images/maps-black-22.svg" class="is-inline"/>
                 <p class="is-inline"> {{ location[i] }}</p>
@@ -36,6 +40,7 @@
                 <img src="/static/images/wi-fi-black-22.svg" class="is-inline"/>
                 <p class="is-inline"> {{ urls[i] }}</p>
               </div>
+              <p class="list-element"></p>
         {% endfor %}
     </div>
   </section>

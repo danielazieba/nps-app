@@ -195,7 +195,7 @@ def events():
     for event in event_json['data']:
         event_titles.append(event['title'])
 
-    return render_template('events.html', events_list=event_titles)
+    return render_template('events.html', events_list=event_titles, park_code=desired_park_code)
 
 @app.route('/articles', methods=['GET','POST'])
 def articles():

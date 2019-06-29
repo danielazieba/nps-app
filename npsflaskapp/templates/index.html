@@ -17,52 +17,23 @@
       <p class="subtitle">
         What are you looking for today?
       </p>
-
-  <!--    <p class="subtitle">View campgrounds by state: </p>
-      <form action="{{ url_for('campgrounds') }}">
-        <div class="select is-multiple">
-          <select multiple size="8" name="requestedStates">
-            {% for state in states %}
-              <option value="{{ state.abbreviation }}">{{ state.name }}</option>
-            {% endfor %}
-          </select>
-
-          <p> {{ campgrounds_by_state }} </p>
-          </div>
-
-          <button type="submit" id="campground-button" class="button is-black">Give me the campgrounds!</button>
-      </form>
-
-
-    </div>
-
-
-    <div> -->
       <form action="{{ url_for('parks') }}">
-
           <p class="subtitle">Search parks by keyword:</p>
           <input class="input" type="text" name="keyword" placeholder="keyword"><br>
-
-     <!--     <p class="subtitle">Filter by park code:</p>
-          <input type="text" name="parkCode"><br> -->
           <br>
           <p class="subtitle">Select parks by state:</p>
           <div class="select is-multiple">
-          <select multiple size="8" name="requestedParkStates">
-            {% for state in states %}
-              <option value="{{ state.abbreviation }}">{{ state.name }}</option>
-            {% endfor %}
-          </select>
-
-          <p> {{ campgrounds_by_state }} </p>
+            <select multiple size="8" name="requestedParkStates">
+              {% for state in states %}
+                <option value="{{ state.abbreviation }}">{{ state.name }}</option>
+              {% endfor %}
+            </select>
+            <p> {{ campgrounds_by_state }} </p>
           </div>
-
           <button type="submit" id="park-button" class="button is-black">Show me your parks!</button>
       </form>
-
       </div>
   </section>
-
   <section class="has-background-black has-text-white">
     <footer class="footer has-background-black">
       <div class="content has-text-centered">
@@ -75,6 +46,5 @@
       </div>
     </footer>
   </section>
-
   </body>
 </html>
