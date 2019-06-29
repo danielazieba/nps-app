@@ -4,7 +4,7 @@ from npsflaskapp import app
 import subprocess
 import json
 
-api_key = 'FCzzTNkAX72099q1ja44eHVTYI27yOos2clMXKkT'
+api_key = '' # to run this, get an API key and put it here
 curr_search_results = {}
 curr_selected_park = ''
 
